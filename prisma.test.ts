@@ -18,6 +18,7 @@ test("timestamp with timezone", async () => {
     },
   });
   console.log("Prisma(default):", defaultResult);
+  expect.soft(defaultResult?.createdAt).toEqual(createdAt);
 
   const adapterResult = await prismaAdapter.user.findUnique({
     where: {
@@ -25,9 +26,11 @@ test("timestamp with timezone", async () => {
     },
   });
   console.log("Prisma(adapter):", adapterResult);
+  expect.soft(adapterResult?.createdAt).toEqual(createdAt);
 
   const pgResult = await pgPool.query('SELECT * FROM "User" WHERE id = $1', [
     created.id,
   ]);
   console.log("pg:", pgResult.rows[0]);
+  expect.soft(pgResult.rows[0].createdAt).toEqual(createdAt);
 });
