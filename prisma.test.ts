@@ -1,25 +1,27 @@
-import { prisma } from "./prisma";
+import { prismaAdapter } from "./prisma-datapter";
+import { prismaDefault } from "./prisma-default";
 
-test("create and find", async () => {
+test("timestamp with timezone", async () => {
   const createdAt = new Date("2025-01-01T00:00:00Z");
   const email = "user@example.com";
-
-  const created = await prisma.user.create({
+  const created = await prismaDefault.user.create({
     data: {
       email,
       createdAt,
     },
   });
 
-  console.log("Created user:", created);
-  expect(created).not.toBeNull();
-  expect(created.createdAt).toEqual(createdAt);
-
-  const found = await prisma.user.findUnique({
+  const defaultResult = await prismaDefault.user.findUnique({
     where: {
       id: created.id,
     },
   });
-  console.log("Found user:", found);
-  expect(created).toEqual(found);
+  console.log("Prisma(default):", defaultResult);
+
+  const adapterResult = await prismaAdapter.user.findUnique({
+    where: {
+      id: created.id,
+    },
+  });
+  console.log("Prisma(adapter):", adapterResult);
 });

@@ -6,6 +6,6 @@ const connectionString = `${process.env.DATABASE_URL}`;
 
 const pool = new Pool({ connectionString });
 const adapter = new PrismaPg(pool);
-export const adapterPrisma = new PrismaClient({ adapter });
+export const prismaAdapter = new PrismaClient({ adapter });
 
-await adapterPrisma.$connect();
+await prismaAdapter.$connect();
