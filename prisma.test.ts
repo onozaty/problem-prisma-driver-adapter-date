@@ -1,3 +1,4 @@
+import { pgPool } from "./pg";
 import { prismaAdapter } from "./prisma-datapter";
 import { prismaDefault } from "./prisma-default";
 
@@ -24,4 +25,9 @@ test("timestamp with timezone", async () => {
     },
   });
   console.log("Prisma(adapter):", adapterResult);
+
+  const pgResult = await pgPool.query('SELECT * FROM "User" WHERE id = $1', [
+    created.id,
+  ]);
+  console.log("pg:", pgResult.rows[0]);
 });
