@@ -4,6 +4,7 @@
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "remoteUser": "node",
+  "postStartCommand": "pnpm install && pnpm run db:migrate",
   "customizations": {
     "vscode": {
       "extensions": [
